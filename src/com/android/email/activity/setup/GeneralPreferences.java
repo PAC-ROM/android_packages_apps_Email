@@ -44,6 +44,7 @@ public class GeneralPreferences extends PreferenceFragment implements
     private static final String PREFERENCE_KEY_CONFIRM_SEND = "confirm_send";
     private static final String PREFERENCE_KEY_CONV_LIST_ICON = "conversation_list_icon";
     private static final String PREFERENCE_KEY_ADD_ATTACHMENT = "add_attachment";
+    private static final String PREFERENCE_KEY_SELECT_RECIPIENTS = "select_recipients";
 
     private MailPrefs mMailPrefs;
     private Preferences mPreferences;
@@ -62,6 +63,7 @@ public class GeneralPreferences extends PreferenceFragment implements
     private CheckBoxPreference mEnableBypassPolicyRequirements;
 
     private CheckBoxPreference mAddAttachment;
+    private CheckBoxPreference mSelectRecipients;
 
     private boolean mSettingsChanged = false;
 
@@ -146,6 +148,9 @@ public class GeneralPreferences extends PreferenceFragment implements
         } else if (PREFERENCE_KEY_ADD_ATTACHMENT.equals(key)) {
             mPreferences.setAddAttachmentEnabled(mAddAttachment.isChecked());
             return true;
+        } else if (PREFERENCE_KEY_SELECT_RECIPIENTS.equals(key)) {
+            mPreferences.setSelectRecipientsEnabled(mSelectRecipients.isChecked());
+            return true;
         }
         return false;
     }
@@ -187,6 +192,8 @@ public class GeneralPreferences extends PreferenceFragment implements
 
         mAddAttachment = (CheckBoxPreference) findPreference(PREFERENCE_KEY_ADD_ATTACHMENT);
         mAddAttachment.setChecked(mPreferences.getAddAttachmentEnabled());
+        mSelectRecipients = (CheckBoxPreference) findPreference(PREFERENCE_KEY_SELECT_RECIPIENTS);
+        mSelectRecipients.setChecked(mPreferences.getSelectRecipientsEnabled());
 
         reloadDynamicSummaries();
     }

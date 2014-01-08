@@ -43,6 +43,7 @@ public class GeneralPreferences extends PreferenceFragment implements
     private static final String PREFERENCE_KEY_CONFIRM_DELETE = "confirm_delete";
     private static final String PREFERENCE_KEY_CONFIRM_SEND = "confirm_send";
     private static final String PREFERENCE_KEY_CONV_LIST_ICON = "conversation_list_icon";
+    private static final String PREFERENCE_KEY_CONFIRM_FORWARD = "confirm_forward";
     private static final String PREFERENCE_KEY_ADD_ATTACHMENT = "add_attachment";
     private static final String PREFERENCE_KEY_SELECT_RECIPIENTS = "select_recipients";
 
@@ -62,6 +63,7 @@ public class GeneralPreferences extends PreferenceFragment implements
 
     private CheckBoxPreference mEnableBypassPolicyRequirements;
 
+    private CheckBoxPreference mConfirmForward;
     private CheckBoxPreference mAddAttachment;
     private CheckBoxPreference mSelectRecipients;
 
@@ -145,6 +147,9 @@ public class GeneralPreferences extends PreferenceFragment implements
             mPreferences.setEnableBypassPolicyRequirements(mEnableBypassPolicyRequirements.isChecked());
             MailActivityEmail.updateServiceBitfields(getActivity());
             return true;
+        } else if (PREFERENCE_KEY_CONFIRM_FORWARD.equals(key)) {
+            mPreferences.setConfirmForward(mConfirmForward.isChecked());
+            return true;
         } else if (PREFERENCE_KEY_ADD_ATTACHMENT.equals(key)) {
             mPreferences.setAddAttachmentEnabled(mAddAttachment.isChecked());
             return true;
@@ -190,6 +195,8 @@ public class GeneralPreferences extends PreferenceFragment implements
         replyAllPreference.setChecked(mMailPrefs.getDefaultReplyAll());
         replyAllPreference.setOnPreferenceChangeListener(this);
 
+        mConfirmForward = (CheckBoxPreference) findPreference(PREFERENCE_KEY_CONFIRM_FORWARD);
+        mConfirmForward.setChecked(mPreferences.getConfirmForward());
         mAddAttachment = (CheckBoxPreference) findPreference(PREFERENCE_KEY_ADD_ATTACHMENT);
         mAddAttachment.setChecked(mPreferences.getAddAttachmentEnabled());
         mSelectRecipients = (CheckBoxPreference) findPreference(PREFERENCE_KEY_SELECT_RECIPIENTS);

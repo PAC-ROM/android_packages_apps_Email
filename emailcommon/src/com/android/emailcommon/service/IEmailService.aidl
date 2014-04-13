@@ -52,7 +52,7 @@ interface IEmailService {
     Bundle autoDiscover(String userName, String password);
 
     // Service control operations (i.e. does not generate a client-server message).
-    oneway void setLogging(int on);
+    oneway void setServiceBitfields(int bitfield);
 
     // Needs to get moved into Email since this is NOT a client-server command.
     void deleteAccountPIMData(String emailAddress);

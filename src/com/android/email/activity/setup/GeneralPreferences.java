@@ -28,6 +28,7 @@ import android.preference.PreferenceScreen;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import com.android.email.Preferences;
 import com.android.email.R;
 import com.android.email.provider.EmailProvider;
@@ -188,6 +189,7 @@ public class GeneralPreferences extends PreferenceFragment implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.general_prefs_fragment_menu, menu);
+
         MenuItem feedbackMenuItem = menu.findItem(R.id.feedback_menu_item);
         Uri feedbackUri = Utils.getValidUri(getString(R.string.email_feedback_uri));
 

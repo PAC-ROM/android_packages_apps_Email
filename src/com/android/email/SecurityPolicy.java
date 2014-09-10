@@ -245,34 +245,52 @@ public class SecurityPolicy {
      * @return true if the requested policies are active, false if not.
      */
     public boolean isActive(Policy policy) {
-        if (Preferences.getPreferences(mContext).getEnableBypassPolicyRequirements()) {
-            Log.i(TAG, "Bypassing isActive check on Policy " + policy == null ? "null" : policy.toString());
-            return true;
-        }
-        Log.i(TAG, "NOT bypassing isActive check on Policy " + policy == null ? "null" : policy.toString());
+        boolean bypass = false;
 
-        int reasons = getInactiveReasons(policy);
-        if (MailActivityEmail.DEBUG && (reasons != 0)) {
-            StringBuilder sb = new StringBuilder("isActive for " + policy + ": ");
-            sb.append("FALSE -> ");
-            if ((reasons & INACTIVE_NEED_ACTIVATION) != 0) {
-                sb.append("no_admin ");
+        try {
+            if (Preferences.getPreferences(mContext).getEnableBypassPolicyRequirements()) {
+                Log.i(TAG, "Bypassing isActive check on Policy " + policy == null ? "null" : policy.toString());
+                bypass = true;
+            } else {
+                Log.i(TAG, "NOT bypassing isActive check on Policy " + policy == null ? "null" : policy.toString());
             }
-            if ((reasons & INACTIVE_NEED_CONFIGURATION) != 0) {
-                sb.append("config ");
+        } catch (java.lang.NullPointerException e) {
+            String msg = null;
+            if (policy == null) {
+                msg = "Caught exception -- policy was null!";
+            } else {
+                msg = "Caught exception -- policy was NOT null, so toString must fail!";
             }
-            if ((reasons & INACTIVE_NEED_PASSWORD) != 0) {
-                sb.append("password ");
-            }
-            if ((reasons & INACTIVE_NEED_ENCRYPTION) != 0) {
-                sb.append("encryption ");
-            }
-            if ((reasons & INACTIVE_PROTOCOL_POLICIES) != 0) {
-                sb.append("protocol ");
-            }
-            LogUtils.d(TAG, sb.toString());
+            Log.e(TAG, msg, e);
         }
-        return reasons == 0;
+
+        if (bypass) {
+            return true;
+        } else if (policy != null) {
+            int reasons = getInactiveReasons(policy);
+            if (MailActivityEmail.DEBUG && (reasons != 0)) {
+                StringBuilder sb = new StringBuilder("isActive for " + policy + ": ");
+                sb.append("FALSE -> ");
+                if ((reasons & INACTIVE_NEED_ACTIVATION) != 0) {
+                    sb.append("no_admin ");
+                }
+                if ((reasons & INACTIVE_NEED_CONFIGURATION) != 0) {
+                    sb.append("config ");
+                }
+                if ((reasons & INACTIVE_NEED_PASSWORD) != 0) {
+                    sb.append("password ");
+                }
+                if ((reasons & INACTIVE_NEED_ENCRYPTION) != 0) {
+                    sb.append("encryption ");
+                }
+                if ((reasons & INACTIVE_PROTOCOL_POLICIES) != 0) {
+                    sb.append("protocol ");
+                }
+                LogUtils.d(TAG, sb.toString());
+            }
+            return reasons == 0;
+        }
+        return true;
     }
 
     /**

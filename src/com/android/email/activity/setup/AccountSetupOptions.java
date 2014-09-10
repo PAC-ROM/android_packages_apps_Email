@@ -507,4 +507,12 @@ public class AccountSetupOptions extends AccountSetupActivity implements OnClick
             mSyncSizeView.setSelection(defaultIndex);
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mCreateAccountDialog != null) {
+            mCreateAccountDialog.dismiss();
+        }
+    }
 }

@@ -247,26 +247,14 @@ public class SecurityPolicy {
     public boolean isActive(Policy policy) {
         boolean bypass = false;
 
-        try {
-            if (Preferences.getPreferences(mContext).getEnableBypassPolicyRequirements()) {
-                Log.i(TAG, "Bypassing isActive check on Policy " + policy == null ? "null" : policy.toString());
-                bypass = true;
-            } else {
-                Log.i(TAG, "NOT bypassing isActive check on Policy " + policy == null ? "null" : policy.toString());
-            }
-        } catch (java.lang.NullPointerException e) {
-            String msg = null;
-            if (policy == null) {
-                msg = "Caught exception -- policy was null!";
-            } else {
-                msg = "Caught exception -- policy was NOT null, so toString must fail!";
-            }
-            Log.e(TAG, msg, e);
+        if (Preferences.getPreferences(mContext).getEnableBypassPolicyRequirements()) {
+            Log.i(TAG, "Bypassing isActive check on Policy ");
+            bypass = true;
+        } else {
+            Log.i(TAG, "NOT bypassing isActive check on Policy.");
         }
 
-        if (bypass) {
-            return true;
-        } else if (policy != null) {
+        if (!bypass && policy != null) {
             int reasons = getInactiveReasons(policy);
             if (MailActivityEmail.DEBUG && (reasons != 0)) {
                 StringBuilder sb = new StringBuilder("isActive for " + policy + ": ");

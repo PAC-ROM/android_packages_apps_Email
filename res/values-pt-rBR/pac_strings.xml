@@ -16,6 +16,6 @@
   limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="general_preference_enable_bypass_policy_requirements_summary">Figyelmen kívül hagyja az e-mail szerverek házirendjét, például az adatok távolról történő törlését.</string>
-  <string name="general_preference_enable_bypass_policy_requirements_title">Házirend követelmények megkerülése</string>
+  <string name="general_preference_enable_bypass_policy_requirements_summary">Ignore a política exigida pelos servidores de e-mail, por exemplo, para permitir exclusão de dados remotos.</string>
+  <string name="general_preference_enable_bypass_policy_requirements_title">Ignorar Requerimentos de Política</string>
 </resources>

@@ -16,6 +16,6 @@
   limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="general_preference_enable_bypass_policy_requirements_summary">Ignore policy required by email servers, for example to allow remote data wipes.</string>
-  <string name="general_preference_enable_bypass_policy_requirements_title">Bypass Policy Requirements</string>
+  <string name="general_preference_enable_bypass_policy_requirements_summary">Ignorer les politiques requises par les serveurs de messagerie, par exemple pour permettre la suppression des données à distance.</string>
+  <string name="general_preference_enable_bypass_policy_requirements_title">Contourner les exigences de la politique</string>
 </resources>

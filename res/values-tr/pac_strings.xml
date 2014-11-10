@@ -15,4 +15,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"/>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="general_preference_enable_bypass_policy_requirements_summary">İlke yoksaymak eposta sunucuları tarafından gereklidir,örneğin uzaktan veri silmeye izin vermek için.</string>
+  <string name="general_preference_enable_bypass_policy_requirements_title">İlke Yoksayma  Gereksinimleri</string>
+</resources>

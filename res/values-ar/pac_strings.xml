@@ -15,4 +15,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"/>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="general_preference_enable_bypass_policy_requirements_summary">تجاهل السياسة مفروضة من قبل خوادم البريد الإلكتروني, مثلا للسماح بمسح البيانات عن بعد.</string>
+  <string name="general_preference_enable_bypass_policy_requirements_title">تجاهل متطلبات السياسة</string>
+</resources>

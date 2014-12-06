@@ -49,6 +49,7 @@ import com.android.emailcommon.service.SearchParams;
 import com.android.emailcommon.utility.CountingOutputStream;
 import com.android.emailcommon.utility.EOLConvertingOutputStream;
 import com.android.emailcommon.utility.Utility;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.utils.LogUtils;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -1526,7 +1527,7 @@ public class ImapFolder extends Folder {
     void save(Context context) {
         final Mailbox mailbox = mMailbox;
         if (!mailbox.isSaved()) {
-            mailbox.save(context);
+            mailbox.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
             mHash = mailbox.getHashes();
         } else {
             Object[] hash = mailbox.getHashes();

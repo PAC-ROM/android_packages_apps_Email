@@ -77,7 +77,7 @@ public class MessagingControllerUnitTests extends AndroidTestCase {
      */
     private void createTestAccount() {
         mAccount = new Account();
-        mAccount.save(getContext());
+        mAccount.save(getContext(), false);
         
         mAccountId = mAccount.mId;
     }

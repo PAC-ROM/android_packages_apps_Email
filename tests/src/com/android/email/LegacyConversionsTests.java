@@ -339,7 +339,7 @@ public class LegacyConversionsTests extends ProviderTestCase2<EmailProvider> {
         EmailContent.Message localMessage2 = ProviderTestUtils.setupMessage("make-legacy",
                 account1Id, mailbox1Id, true, false, mProviderContext);
         localMessage2.mFlags &= ~EmailContent.Message.FLAG_TYPE_MASK;
-        localMessage2.save(mProviderContext);
+        localMessage2.save(mProviderContext, false);
         Message getMessage2 = LegacyConversions.makeMessage(mProviderContext, localMessage2);
         checkLegacyMessage("simple body", localMessage2, getMessage2);
 
@@ -348,7 +348,7 @@ public class LegacyConversionsTests extends ProviderTestCase2<EmailProvider> {
                 account1Id, mailbox1Id, true, false, mProviderContext);
         localMessage3.mFlags &= ~EmailContent.Message.FLAG_TYPE_MASK;
         localMessage3.mFlags |= EmailContent.Message.FLAG_TYPE_REPLY;
-        localMessage3.save(mProviderContext);
+        localMessage3.save(mProviderContext, false);
         Message getMessage3 = LegacyConversions.makeMessage(mProviderContext, localMessage3);
         checkLegacyMessage("reply-to", localMessage3, getMessage3);
 
@@ -357,7 +357,7 @@ public class LegacyConversionsTests extends ProviderTestCase2<EmailProvider> {
                 account1Id, mailbox1Id, true, false, mProviderContext);
         localMessage4.mFlags &= ~EmailContent.Message.FLAG_TYPE_MASK;
         localMessage4.mFlags |= EmailContent.Message.FLAG_TYPE_FORWARD;
-        localMessage4.save(mProviderContext);
+        localMessage4.save(mProviderContext, false);
         Message getMessage4 = LegacyConversions.makeMessage(mProviderContext, localMessage4);
         checkLegacyMessage("forwarding", localMessage4, getMessage4);
     }

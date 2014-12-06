@@ -47,6 +47,7 @@ import com.android.emailcommon.provider.EmailContent.Message;
 import com.android.emailcommon.provider.Mailbox;
 import com.android.emailcommon.utility.EmailAsyncTask;
 import com.android.mail.preferences.FolderPreferences;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.providers.Folder;
 import com.android.mail.providers.UIProvider;
 import com.android.mail.utils.Clock;
@@ -515,11 +516,15 @@ public class EmailNotificationController implements NotificationController {
      */
     @Override
     public void showSecurityChangedNotification(Account account) {
+        if (MailPrefs.get(mContext).getEnableBypassPolicyRequirements()) {
+            LogUtils.i(LOG_TAG, "Bypassing showSecurityChangedNotification");
+        }
+
         final Intent intent = new Intent(Intent.ACTION_VIEW,
                 EmailProvider.getIncomingSettingsUri(account.getId()));
         final String accountName = account.getDisplayName();
         final String ticker =
-            mContext.getString(R.string.security_changed_ticker_fmt, accountName);
+                mContext.getString(R.string.security_changed_ticker_fmt, accountName);
         final String title =
                 mContext.getString(R.string.security_notification_content_change_title);
         showNotification(account.mId, ticker, title, accountName, intent,

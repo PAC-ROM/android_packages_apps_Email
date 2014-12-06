@@ -64,7 +64,7 @@ public class ProviderTestUtils extends Assert {
         account.mSecuritySyncKey = "sec-sync-key-" + name;
         account.mSignature = "signature-" + name;
         if (saveIt) {
-            account.save(context);
+            account.save(context, false);
         }
         return account;
     }
@@ -101,7 +101,7 @@ public class ProviderTestUtils extends Assert {
         hostAuth.mDomain = "domain-" + name;
 
         if (saveIt) {
-            hostAuth.save(context);
+            hostAuth.save(context, false);
         }
         return hostAuth;
     }
@@ -141,7 +141,7 @@ public class ProviderTestUtils extends Assert {
         box.mFlags = 5;
 
         if (saveIt) {
-            box.save(context);
+            box.save(context, false);
         }
         return box;
     }
@@ -194,7 +194,7 @@ public class ProviderTestUtils extends Assert {
         }
 
         if (saveIt) {
-            message.save(context);
+            message.save(context, false);
         }
         return message;
     }
@@ -216,7 +216,7 @@ public class ProviderTestUtils extends Assert {
         body.mTextContent = textContent;
         body.mSourceKey = messageId + 0x1000;
         if (saveIt) {
-            body.save(context);
+            body.save(context, false);
         }
         return body;
     }
@@ -248,7 +248,7 @@ public class ProviderTestUtils extends Assert {
         att.mContentBytes = Utility.toUtf8("content " + fileName);
         att.mAccountKey = messageId + 0x1000;
         if (saveIt) {
-            att.save(context);
+            att.save(context, false);
         }
         return att;
     }

@@ -82,7 +82,7 @@ public class MailboxTests extends ProviderTestCase2<EmailProvider> {
         Message message = ProviderTestUtils.setupMessage(
                 "1", b.mAccountKey, b.mId, true, false, c, starred, read);
         message.mFlagLoaded = flagLoaded;
-        message.save(c);
+        message.save(c, false);
         return message;
     }
 
@@ -457,7 +457,7 @@ public class MailboxTests extends ProviderTestCase2<EmailProvider> {
     public void testGetHashes() {
         final Context c = mMockContext;
         Mailbox testMailbox = buildTestMailbox(TEST_SERVER_ID);
-        testMailbox.save(c);
+        testMailbox.save(c, false);
 
         Object[] testHash;
         testHash = new Object[] {

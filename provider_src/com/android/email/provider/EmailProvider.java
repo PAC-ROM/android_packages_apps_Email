@@ -4969,7 +4969,7 @@ public class EmailProvider extends ContentProvider
                 box.mLastTouchedTime = Mailbox.SENT_DEFAULT_TOUCH_TIME;
                 break;
         }
-        box.save(context);
+        box.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
         return box;
     }
 
@@ -5115,7 +5115,7 @@ public class EmailProvider extends ContentProvider
         }
         // Save it or update it...
         if (!msg.isSaved()) {
-            msg.save(context);
+            msg.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
         } else {
             // This is tricky due to how messages/attachments are saved; rather than putz with
             // what's changed, we'll delete/re-add them
@@ -6048,7 +6048,7 @@ public class EmailProvider extends ContentProvider
             m.mType = Mailbox.TYPE_SEARCH;
             m.mFlags = Mailbox.FLAG_HOLDS_MAIL;
             m.mParentKey = Mailbox.NO_MAILBOX;
-            m.save(context);
+            m.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
         }
         return m;
     }
@@ -6499,6 +6499,7 @@ public class EmailProvider extends ContentProvider
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (PreferenceKeys.REMOVAL_ACTION.equals(key) ||
                 PreferenceKeys.CONVERSATION_LIST_SWIPE.equals(key) ||
+                PreferenceKeys.ENABLE_BYPASS_POLICY_REQUIREMENTS.equals(key) ||
                 PreferenceKeys.SHOW_SENDER_IMAGES.equals(key) ||
                 PreferenceKeys.DEFAULT_REPLY_ALL.equals(key) ||
                 PreferenceKeys.CONVERSATION_OVERVIEW_MODE.equals(key) ||

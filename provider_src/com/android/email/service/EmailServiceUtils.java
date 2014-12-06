@@ -131,16 +131,20 @@ public class EmailServiceUtils {
     }
 
     /**
-     * Starts all remote services
+     * Starts all remote services and sets service bitfields (e.g., debug
+     * logging or policy requirement overrides) on the services started.
      */
-    public static void setRemoteServicesLogging(Context context, int debugBits) {
+    public static void setRemoteServicesBitfields(Context context, int serviceBitfields) {
+        String TAG = "EmailServiceUtils";
+        LogUtils.i(TAG,  "In setRemoteServicesBitfields ...");
         for (EmailServiceInfo info: getServiceInfoList(context)) {
             if (info.intentAction != null) {
                 EmailServiceProxy service =
                         EmailServiceUtils.getService(context, info.protocol);
                 if (service != null) {
                     try {
-                        service.setLogging(debugBits);
+                        LogUtils.i(TAG,  "In setRemoteServicesBitfields, calling setServiceBitfields on %s", info.protocol);
+                        service.setServiceBitfields(serviceBitfields);
                     } catch (RemoteException e) {
                         // Move along, nothing to see
                     }
@@ -706,7 +710,7 @@ public class EmailServiceUtils {
         public void updateFolderList(long accountId) throws RemoteException {}
 
         @Override
-        public void setLogging(int flags) throws RemoteException {
+        public void setServiceBitfields(int bitfield) throws RemoteException {
         }
 
         @Override

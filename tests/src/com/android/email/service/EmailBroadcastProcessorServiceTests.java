@@ -87,36 +87,36 @@ public class EmailBroadcastProcessorServiceTests extends AccountTestCase {
         Account account1 = ProviderTestUtils.setupAccount("eas-account1", false, mMockContext);
         account1.mHostAuthRecv = setupSimpleHostAuth("eas");
         account1.mHostAuthSend = account1.mHostAuthRecv;
-        account1.save(mMockContext);
+        account1.save(mMockContext, false);
         long accountId1 = account1.mId;
         Account account2 = ProviderTestUtils.setupAccount("pop-account1", false, mMockContext);
         account2.mHostAuthRecv = setupSimpleHostAuth("pop3");
         account2.mHostAuthSend = setupSimpleHostAuth("smtp");
         account2.mFlags = 0x08;       // set delete policy
-        account2.save(mMockContext);
+        account2.save(mMockContext, false);
         long accountId2 = account2.mId;
         Account account3 = ProviderTestUtils.setupAccount("pop-account2", false, mMockContext);
         account3.mHostAuthRecv = setupSimpleHostAuth("pop3");
         account3.mHostAuthSend = setupSimpleHostAuth("smtp");
-        account3.save(mMockContext);
+        account3.save(mMockContext, false);
         long accountId3 = account3.mId;
         Account account4 = ProviderTestUtils.setupAccount("imap-account1", false, mMockContext);
         account4.mHostAuthRecv = setupSimpleHostAuth("imap");
         account4.mHostAuthSend = setupSimpleHostAuth("smtp");
         account4.mFlags = 0xa5a5a5a5; // Alternating bits; includes bad delete policy
-        account4.save(mMockContext);
+        account4.save(mMockContext, false);
         long accountId4 = account4.mId;
         Account account5 = ProviderTestUtils.setupAccount("imap-account2", false, mMockContext);
         account5.mHostAuthRecv = setupSimpleHostAuth("imap");
         account5.mHostAuthSend = setupSimpleHostAuth("smtp");
         account5.mFlags = 0x0c;       // All delete policy bits set
-        account5.save(mMockContext);
+        account5.save(mMockContext, false);
         long accountId5 = account5.mId;
         Account account6 = ProviderTestUtils.setupAccount("imap-account3", false, mMockContext);
         account6.mHostAuthRecv = setupSimpleHostAuth("imap");
         account6.mHostAuthSend = setupSimpleHostAuth("smtp");
         account6.mFlags = 0;         // No delete policy bits set
-        account6.save(mMockContext);
+        account6.save(mMockContext, false);
         long accountId6 = account6.mId;
 
         // Run the account migration

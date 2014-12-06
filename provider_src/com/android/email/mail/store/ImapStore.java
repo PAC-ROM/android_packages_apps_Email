@@ -45,6 +45,7 @@ import com.android.emailcommon.provider.HostAuth;
 import com.android.emailcommon.provider.Mailbox;
 import com.android.emailcommon.service.EmailServiceProxy;
 import com.android.emailcommon.utility.Utility;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.utils.LogUtils;
 import com.beetstra.jutf7.CharsetProvider;
 import com.google.common.annotations.VisibleForTesting;
@@ -399,7 +400,7 @@ public class ImapStore extends Store {
             // the server, it can be synched. We need to set the uiSyncStatus so that the UI
             // will not try to display the empty state until the sync completes.
             mailbox.mUiSyncStatus = EmailContent.SYNC_STATUS_INITIAL_SYNC_NEEDED;
-            mailbox.save(mContext);
+            mailbox.save(mContext, MailPrefs.get(context).getEnableBypassPolicyRequirements());
         }
         folder.mMailbox = mailbox;
         return folder;

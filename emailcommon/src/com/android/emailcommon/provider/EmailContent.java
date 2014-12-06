@@ -380,7 +380,7 @@ public abstract class EmailContent {
         return null;
     }
 
-    public Uri save(Context context) {
+    public Uri save(Context context, boolean enablePolicyBypass) {
         if (isSaved()) {
             throw new UnsupportedOperationException();
         }
@@ -1079,7 +1079,7 @@ public abstract class EmailContent {
          * @see com.android.email.provider.EmailContent#save(android.content.Context)
          */
         @Override
-        public Uri save(Context context) {
+        public Uri save(Context context, boolean enablePolicyBypass) {
 
             boolean doSave = !isSaved();
 
@@ -1089,7 +1089,7 @@ public abstract class EmailContent {
             if (mText == null && mHtml == null &&
                     (mAttachments == null || mAttachments.isEmpty())) {
                 if (doSave) {
-                    return super.save(context);
+                    return super.save(context, enablePolicyBypass);
                 } else {
                     // FLAG: Should we be doing this? In the base class, if someone calls "save" on
                     // an EmailContent that is already saved, it throws an exception.

@@ -107,7 +107,7 @@ public class Rfc822OutputTests extends ProviderTestCase2<EmailProvider> {
         msg.mCc = RECIPIENT_CC;
         msg.mSubject = SUBJECT;
         msg.mFlags = Message.FLAG_TYPE_FORWARD;
-        msg.save(mMockContext);
+        msg.save(mMockContext, false);
         Body body = createTestBody(msg);
         String[] bodyParts = Rfc822Output.buildBodyText(body, false);
         assertEquals(TEXT + mForwardIntro + REPLY_TEXT_BODY, bodyParts[0]);
@@ -119,7 +119,7 @@ public class Rfc822OutputTests extends ProviderTestCase2<EmailProvider> {
         msg.mText = TEXT;
         msg.mFrom = SENDER;
         // Save this away
-        msg.save(mMockContext);
+        msg.save(mMockContext, false);
 
         // Write out an Rfc822 message
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
@@ -153,7 +153,7 @@ public class Rfc822OutputTests extends ProviderTestCase2<EmailProvider> {
         att.mFileName = "invite.ics";
         msg.mAttachments.add(att);
         // Save this away
-        msg.save(mMockContext);
+        msg.save(mMockContext, false);
 
         // Write out an Rfc822 message
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
@@ -197,7 +197,7 @@ public class Rfc822OutputTests extends ProviderTestCase2<EmailProvider> {
         att.mFileName = "test.html";
         msg.mAttachments.add(att);
         // Save this away
-        msg.save(mMockContext);
+        msg.save(mMockContext, false);
 
         // Write out an Rfc822 message
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();

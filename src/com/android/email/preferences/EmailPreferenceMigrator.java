@@ -81,6 +81,12 @@ public class EmailPreferenceMigrator extends BasePreferenceMigrator {
                 mailPrefs.setConversationListSwipeEnabled(swipeDelete);
             }
 
+            final boolean hasEnableBypassPolicyRequirements = preferences.hasEnableBypassPolicyRequirements();
+            if (hasEnableBypassPolicyRequirements) {
+                final boolean enableBypassPolicyRequirements = preferences.getEnableBypassPolicyRequirements();
+                mailPrefs.setEnableBypassPolicyRequirements(enableBypassPolicyRequirements);
+            }
+
             // Move reply-all setting
             final boolean isReplyAllSet = preferences.hasReplyAll();
             if (isReplyAllSet) {

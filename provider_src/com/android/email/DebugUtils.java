@@ -37,9 +37,14 @@ public class DebugUtils {
                 prefs.getEnableExchangeFileLogging() ? EmailServiceProxy.DEBUG_FILE_BIT : 0;
         int enableStrictMode =
                 prefs.getEnableStrictMode() ? EmailServiceProxy.DEBUG_ENABLE_STRICT_MODE : 0;
-        int debugBits = debugLogging | exchangeLogging | fileLogging | enableStrictMode;
-        EmailServiceUtils.setRemoteServicesLogging(context, debugBits);
-    }
+
+        // This is necessary because the flags are bitfields housing more than mere logging info.
+        int enableExchangeBypassPolicyRequirements =
+                prefs.getEnableBypassPolicyRequirements() ? EmailServiceProxy.ENABLE_BYPASS_POLICY_REQUIREMENTS_BIT : 0;
+
+        int bitfield = debugLogging | exchangeLogging | fileLogging | enableStrictMode | enableExchangeBypassPolicyRequirements;
+        EmailServiceUtils.setRemoteServicesBitfields(context, bitfield);
+     }
 
     public static void  enableStrictMode(final boolean enable) {
         Utility.enableStrictMode(enable);

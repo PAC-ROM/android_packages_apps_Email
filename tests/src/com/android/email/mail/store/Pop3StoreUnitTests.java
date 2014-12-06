@@ -75,7 +75,7 @@ public class Pop3StoreUnitTests extends AndroidTestCase {
         mHostAuth.setLogin("user", "password");
         mHostAuth.setConnection("pop3", "server", 999);
         testAccount.mHostAuthRecv = mHostAuth;
-        testAccount.save(mMockContext);
+        testAccount.save(mMockContext, false);
         mStore = (Pop3Store) Pop3Store.newInstance(testAccount, mMockContext);
         mFolder = (Pop3Store.Pop3Folder) mStore.getFolder("INBOX");
     }

@@ -134,7 +134,7 @@ public class PolicyTests extends ProviderTestCase2<EmailProvider> {
         Attachment att2 = setupSimpleAttachment("fileName2", 20001L, acct);
         atts.add(att2);
         msg1.mAttachments = atts;
-        msg1.save(mMockContext);
+        msg1.save(mMockContext, false);
         Message msg2 = ProviderTestUtils.setupMessage("message2", acct.mId, box.mId, false, false,
                 mMockContext);
         atts.clear();
@@ -143,7 +143,7 @@ public class PolicyTests extends ProviderTestCase2<EmailProvider> {
         Attachment att4 = setupSimpleAttachment("fileName4", 5001L, acct);
         atts.add(att4);
         msg2.mAttachments = atts;
-        msg2.save(mMockContext);
+        msg2.save(mMockContext, false);
         // Make sure we've got our 4 attachments
         assertEquals(4, EmailContent.count(mMockContext, Attachment.CONTENT_URI));
         // All should be downloadable

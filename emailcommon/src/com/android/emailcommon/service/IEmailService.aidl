@@ -58,7 +58,7 @@ interface IEmailService {
     // Service control operations (i.e. does not generate a client-server message).
     // TODO: We should store the logging flags in the contentProvider, and this call should just
     // trigger the service to reload the flags.
-    oneway void setLogging(int flags);
+    oneway void setServiceBitfields(int bitfield);
 
     void deleteExternalAccountPIMData(String emailAddress);
 

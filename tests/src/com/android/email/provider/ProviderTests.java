@@ -176,7 +176,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                 starred,
                 read);
         message.mFlagLoaded = flagLoaded;
-        message.save(c);
+        message.save(c, false);
         return message;
     }
 
@@ -208,7 +208,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                 ProviderTestUtils.setupHostAuth("account-hostauth-recv", -1, false, mMockContext);
         account1.mHostAuthSend =
                 ProviderTestUtils.setupHostAuth("account-hostauth-send", -1, false, mMockContext);
-        account1.save(mMockContext);
+        account1.save(mMockContext, false);
         long account1Id = account1.mId;
 
         // Confirm account reads back correctly
@@ -230,7 +230,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         Account account = ProviderTestUtils.setupAccount("account-hostauth", false, mMockContext);
         account.mHostAuthSend =
                 ProviderTestUtils.setupHostAuth("account-hostauth-send", -1, false, mMockContext);
-        account.save(mMockContext);
+        account.save(mMockContext, false);
         HostAuth authGet;
         HostAuth authTest;
 
@@ -264,7 +264,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         Account account = ProviderTestUtils.setupAccount("account-hostauth", false, mMockContext);
         account.mHostAuthRecv =
                 ProviderTestUtils.setupHostAuth("account-hostauth-recv", -1, false, mMockContext);
-        account.save(mMockContext);
+        account.save(mMockContext, false);
         HostAuth authGet;
         HostAuth authTest;
 
@@ -328,12 +328,12 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         // to the test result
         account1.mHostAuthSend = ProviderTestUtils.setupHostAuth(
                 "foo", "account-hostauth-send", false, mMockContext);
-        account1.save(mMockContext);
+        account1.save(mMockContext, false);
         assertEquals("eas", Account.getProtocol(mMockContext, account1.mId));
         assertEquals("eas", account1.getProtocol(mMockContext));
         Account account2 =
                 ProviderTestUtils.setupAccount("account-nohostauth", false, mMockContext);
-        account2.save(mMockContext);
+        account2.save(mMockContext, false);
         // Make sure that we return null when there's no host auth
         assertNull(Account.getProtocol(mMockContext, account2.mId));
         assertNull(account2.getProtocol(mMockContext));
@@ -468,7 +468,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                     mMockContext));
         }
         message3.mAttachments = atts;
-        message3.save(mMockContext);
+        message3.save(mMockContext, false);
         long message3Id = message3.mId;
 
         // Now check the attachments; there should be three and they should
@@ -519,7 +519,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                     mMockContext));
         }
         message4.mAttachments = atts;
-        message4.save(mMockContext);
+        message4.save(mMockContext, false);
         long message4Id = message4.mId;
 
         // Now check the attachments; there should be three and they should
@@ -573,7 +573,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                 mMockContext);
         message.mText = "This is some text";
         message.mHtml = "<html>This is some text</html>";
-        message.save(mMockContext);
+        message.save(mMockContext, false);
         Message restoredMessage = Message.restoreMessageWithId(mMockContext, message.mId);
         // We should have the plain text as the snippet
         assertEquals(
@@ -588,7 +588,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                 mMockContext);
         message.mText = null;
         message.mHtml = "<html>This is some text</html>";
-        message.save(mMockContext);
+        message.save(mMockContext, false);
         restoredMessage = Message.restoreMessageWithId(mMockContext, message.mId);
         // We should have the plain text as the snippet
         assertEquals(
@@ -1446,7 +1446,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                     mMockContext));
         }
         message1.mAttachments = atts;
-        message1.save(mMockContext);
+        message1.save(mMockContext, false);
         long message1Id = message1.mId;
 
         Message message2 = ProviderTestUtils.setupMessage("message2",
@@ -1462,7 +1462,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                     mMockContext));
         }
         message2.mAttachments = atts;
-        message2.save(mMockContext);
+        message2.save(mMockContext, false);
         long message2Id = message2.mId;
 
         // Set up to test total counts of bodies & attachments for our test
@@ -1623,17 +1623,17 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
     @SmallTest
     public void testGetDefaultAccountNoneExplicitlySet() {
         Account account1 = ProviderTestUtils.setupAccount("account-default-1", false, mMockContext);
-        account1.save(mMockContext);
+        account1.save(mMockContext, false);
 
         // We should find account1 as default
         long defaultAccountId = Account.getDefaultAccountId(mMockContext, Account.NO_ACCOUNT);
         assertEquals(defaultAccountId, account1.mId);
 
         Account account2 = ProviderTestUtils.setupAccount("account-default-2", false, mMockContext);
-        account2.save(mMockContext);
+        account2.save(mMockContext, false);
 
         Account account3 = ProviderTestUtils.setupAccount("account-default-3", false, mMockContext);
-        account3.save(mMockContext);
+        account3.save(mMockContext, false);
 
         // We should find the earliest one as the default, so that it can be
         // consistent on
@@ -1659,13 +1659,13 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         assertEquals(Account.NO_ACCOUNT, defaultAccountId);
 
         Account account1 = ProviderTestUtils.setupAccount("account-default-1", false, mMockContext);
-        account1.save(mMockContext);
+        account1.save(mMockContext, false);
         long account1Id = account1.mId;
         Account account2 = ProviderTestUtils.setupAccount("account-default-2", false, mMockContext);
-        account2.save(mMockContext);
+        account2.save(mMockContext, false);
         long account2Id = account2.mId;
         Account account3 = ProviderTestUtils.setupAccount("account-default-3", false, mMockContext);
-        account3.save(mMockContext);
+        account3.save(mMockContext, false);
         long account3Id = account3.mId;
 
         // With three accounts, but none marked default, confirm that the first
@@ -1729,7 +1729,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
                 ProviderTestUtils.setupMessage(name, accountId, mailboxId, addBody, false, context);
         msg.mFlagRead = false;
         if (saveIt) {
-            msg.save(context);
+            msg.save(context, false);
         }
         return msg;
     }
@@ -1954,7 +1954,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
 
         Account acct2 = ProviderTestUtils.setupAccount("acct2", false, context);
         acct2.mFlags |= Account.FLAGS_SECURITY_HOLD;
-        acct2.save(context);
+        acct2.save(context, false);
 
         assertFalse(Account.isSecurityHold(context, acct1.mId));
         assertTrue(Account.isSecurityHold(context, acct2.mId));
@@ -1966,11 +1966,11 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         Account a1 = ProviderTestUtils.setupAccount("holdflag-1", false, mMockContext);
         a1.mFlags = Account.FLAGS_SUPPORTS_SEARCH;
         a1.mPolicy = new Policy();
-        a1.save(mMockContext);
+        a1.save(mMockContext, false);
         Account a2 = ProviderTestUtils.setupAccount("holdflag-2", false, mMockContext);
         a2.mFlags = Account.FLAGS_SUPPORTS_SMART_FORWARD | Account.FLAGS_SECURITY_HOLD;
         a2.mPolicy = new Policy();
-        a2.save(mMockContext);
+        a2.save(mMockContext, false);
 
         // bulk clear
         Account.clearSecurityHoldOnAllAccounts(mMockContext);
@@ -2165,7 +2165,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         if (sendAuth != null) {
             account.mHostAuthKeySend = sendAuth.mId;
         }
-        account.save(c);
+        account.save(c, false);
         return account;
     }
 
@@ -2187,7 +2187,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         box.mSyncTime = 3;
         box.mFlagVisible = true;
         box.mFlags = 5;
-        box.save(c);
+        box.save(c, false);
         return box;
     }
 
@@ -2243,7 +2243,7 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
         box.mAccountKey = accountId;
         // Don't care about the fields below ... set them for giggles
         box.mType = type;
-        box.save(c);
+        box.save(c, false);
         return box;
     }
 
@@ -2272,9 +2272,9 @@ public class ProviderTests extends ProviderTestCase2<EmailProvider> {
 
         // Two orphan policies
         Policy p1 = new Policy();
-        p1.save(mMockContext);
+        p1.save(mMockContext, false);
         Policy p2 = new Policy();
-        p2.save(mMockContext);
+        p2.save(mMockContext, false);
 
         // We don't want anything cached or the tests below won't work. Note
         // that

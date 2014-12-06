@@ -45,6 +45,7 @@ import com.android.emailcommon.provider.EmailContent.PolicyColumns;
 import com.android.emailcommon.provider.Policy;
 import com.android.emailcommon.utility.TextUtilities;
 import com.android.emailcommon.utility.Utility;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.utils.LogUtils;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -246,28 +247,40 @@ public class SecurityPolicy {
      * @return true if the requested policies are active, false if not.
      */
     public boolean isActive(Policy policy) {
-        int reasons = getInactiveReasons(policy);
-        if (MailActivityEmail.DEBUG && (reasons != 0)) {
-            StringBuilder sb = new StringBuilder("isActive for " + policy + ": ");
-            sb.append("FALSE -> ");
-            if ((reasons & INACTIVE_NEED_ACTIVATION) != 0) {
-                sb.append("no_admin ");
-            }
-            if ((reasons & INACTIVE_NEED_CONFIGURATION) != 0) {
-                sb.append("config ");
-            }
-            if ((reasons & INACTIVE_NEED_PASSWORD) != 0) {
-                sb.append("password ");
-            }
-            if ((reasons & INACTIVE_NEED_ENCRYPTION) != 0) {
-                sb.append("encryption ");
-            }
-            if ((reasons & INACTIVE_PROTOCOL_POLICIES) != 0) {
-                sb.append("protocol ");
-            }
-            LogUtils.d(TAG, sb.toString());
+        boolean bypass = false;
+
+        if (MailPrefs.get(mContext).getEnableBypassPolicyRequirements()) {
+            LogUtils.i(TAG, "Bypassing isActive check on Policy ");
+            bypass = true;
+        } else {
+            LogUtils.i(TAG, "NOT bypassing isActive check on Policy.");
         }
-        return reasons == 0;
+
+        if (!bypass && policy != null) {
+            int reasons = getInactiveReasons(policy);
+            if (MailActivityEmail.DEBUG && (reasons != 0)) {
+                StringBuilder sb = new StringBuilder("isActive for " + policy + ": ");
+                sb.append("FALSE -> ");
+                if ((reasons & INACTIVE_NEED_ACTIVATION) != 0) {
+                    sb.append("no_admin ");
+                }
+                if ((reasons & INACTIVE_NEED_CONFIGURATION) != 0) {
+                    sb.append("config ");
+                }
+                if ((reasons & INACTIVE_NEED_PASSWORD) != 0) {
+                    sb.append("password ");
+                }
+                if ((reasons & INACTIVE_NEED_ENCRYPTION) != 0) {
+                    sb.append("encryption ");
+                }
+                if ((reasons & INACTIVE_PROTOCOL_POLICIES) != 0) {
+                    sb.append("protocol ");
+                }
+                LogUtils.d(TAG, sb.toString());
+            }
+            return reasons == 0;
+        }
+        return true;
     }
 
     /**
@@ -316,10 +329,18 @@ public class SecurityPolicy {
      * is needed (typically, by the user) before the required security polices are fully active.
      */
     public int getInactiveReasons(Policy policy) {
+        if (MailPrefs.get(mContext).getEnableBypassPolicyRequirements()) {
+            LogUtils.i(TAG, "Bypassing getInactiveReasons check on Policy " + policy == null ? "null" : policy.toString());
+            return 0;
+        }
+
         // select aggregate set if needed
         if (policy == null) {
             policy = getAggregatePolicy();
         }
+
+        LogUtils.i(TAG, "NOT bypassing getInactiveReasons check on Policy " + policy.toString());
+
         // quick check for the "empty set" of no policies
         if (policy == Policy.NO_POLICY) {
             return 0;
@@ -402,6 +423,12 @@ public class SecurityPolicy {
      * we only proceed if we are already active as an admin.
      */
     public void setActivePolicies() {
+        if (MailPrefs.get(mContext).getEnableBypassPolicyRequirements()) {
+            LogUtils.i(TAG, "Bypassing setActivePolicies.");
+            return;
+        }
+        LogUtils.i(TAG, "NOT bypassing setActivePolicies.");
+
         DevicePolicyManager dpm = getDPM();
         // compute aggregate set of policies
         Policy aggregatePolicy = getAggregatePolicy();
@@ -528,7 +555,7 @@ public class SecurityPolicy {
 
         // Make sure this is a valid policy set
         if (policy != null) {
-            policy.normalize();
+            policy.normalize(MailPrefs.get(context).getEnableBypassPolicyRequirements());
             // Add the new policy (no account will yet reference this)
             ops.add(ContentProviderOperation.newInsert(
                     Policy.CONTENT_URI).withValues(policy.toContentValues()).build());
@@ -632,7 +659,7 @@ public class SecurityPolicy {
                 if (notify) {
                     // Notify that policies changed
                     NotificationController.getInstance(mContext).showSecurityChangedNotification(
-                            account);
+                            account, MailPrefs.get(mContext).getEnableBypassPolicyRequirements());
                 }
             } else {
                 LogUtils.d(Logging.LOG_TAG, "Policy is active and unchanged; do not notify.");
@@ -664,6 +691,12 @@ public class SecurityPolicy {
      * return to the caller if there is an unexpected failure.  The wipe includes external storage.
      */
     public void remoteWipe() {
+        if (MailPrefs.get(mContext).getEnableBypassPolicyRequirements()) {
+            LogUtils.i(TAG, "Bypassing remoteWipe request.");
+            return;
+        }
+        LogUtils.i(TAG, "NOT bypassing remoteWipe request ");
+
         DevicePolicyManager dpm = getDPM();
         if (dpm.isAdminActive(mAdminName)) {
             dpm.wipeData(DevicePolicyManager.WIPE_EXTERNAL_STORAGE);
@@ -681,6 +714,12 @@ public class SecurityPolicy {
      * @return true if we are already active, false if we are not
      */
     public boolean isActiveAdmin() {
+        if (MailPrefs.get(mContext).getEnableBypassPolicyRequirements()) {
+            LogUtils.i(TAG, "Bypassing isActiveAdmin check.");
+            return true;
+        }
+        LogUtils.i(TAG, "NOT bypassing isActiveAdmin check.");
+
         DevicePolicyManager dpm = getDPM();
         return dpm.isAdminActive(mAdminName)
                 && dpm.hasGrantedPolicy(mAdminName, DeviceAdminInfo.USES_POLICY_EXPIRE_PASSWORD)

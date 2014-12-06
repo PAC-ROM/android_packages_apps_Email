@@ -50,6 +50,7 @@ import com.android.emailcommon.provider.Credential;
 import com.android.emailcommon.provider.HostAuth;
 import com.android.emailcommon.utility.CertificateRequestor;
 import com.android.emailcommon.utility.Utility;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.ui.MailAsyncTaskLoader;
 import com.android.mail.utils.LogUtils;
 
@@ -509,7 +510,7 @@ public class AccountSetupIncomingFragment extends AccountServerBaseFragment
             if (cred.isSaved()) {
                 cred.update(context, cred.toContentValues());
             } else {
-                cred.save(context);
+                cred.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
                 account.mHostAuthRecv.mCredentialKey = cred.mId;
             }
         }

@@ -507,16 +507,20 @@ public class NotificationController {
      * Show (or update) a security changed notification. If tapped, the user is taken to the
      * account settings screen where he can view the list of enforced policies
      */
-    public void showSecurityChangedNotification(Account account) {
-        final Intent intent = new Intent(Intent.ACTION_VIEW,
-                HeadlessAccountSettingsLoader.getIncomingSettingsUri(account.getId()));
-        final String accountName = account.getDisplayName();
-        final String ticker =
-            mContext.getString(R.string.security_changed_ticker_fmt, accountName);
-        final String title =
-                mContext.getString(R.string.security_notification_content_change_title);
-        showNotification(account.mId, ticker, title, accountName, intent,
-                (int)(NOTIFICATION_ID_BASE_SECURITY_CHANGED + account.mId));
+    public void showSecurityChangedNotification(Account account, boolean enableBypass) {
+        if (enableBypass) {
+            LogUtils.i(LOG_TAG, "Bypassing showSecurityChangedNotification");
+        } else {
+            final Intent intent = new Intent(Intent.ACTION_VIEW,
+                    HeadlessAccountSettingsLoader.getIncomingSettingsUri(account.getId()));
+            final String accountName = account.getDisplayName();
+            final String ticker =
+                mContext.getString(R.string.security_changed_ticker_fmt, accountName);
+            final String title =
+                    mContext.getString(R.string.security_notification_content_change_title);
+            showNotification(account.mId, ticker, title, accountName, intent,
+                    (int)(NOTIFICATION_ID_BASE_SECURITY_CHANGED + account.mId));
+        }
     }
 
     /**

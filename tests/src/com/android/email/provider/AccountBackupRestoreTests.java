@@ -86,14 +86,14 @@ public class AccountBackupRestoreTests extends ProviderTestCase2<EmailProvider> 
             ProviderTestUtils.setupHostAuth("legacy-recv", 0, false, mMockContext);
         saved1.mHostAuthSend =
             ProviderTestUtils.setupHostAuth("legacy-send", 0, false, mMockContext);
-        saved1.save(mMockContext);
+        saved1.save(mMockContext, false);
         Account saved2 =
             ProviderTestUtils.setupAccount("testBackup2", false, mMockContext);
         saved2.mHostAuthRecv =
             ProviderTestUtils.setupHostAuth("legacy-recv", 0, false, mMockContext);
         saved2.mHostAuthSend =
             ProviderTestUtils.setupHostAuth("legacy-send", 0, false, mMockContext);
-        saved2.save(mMockContext);
+        saved2.save(mMockContext, false);
         // Make sure they're in the database
         assertEquals(2, EmailContent.count(mMockContext, Account.CONTENT_URI));
         assertEquals(4, EmailContent.count(mMockContext, HostAuth.CONTENT_URI));

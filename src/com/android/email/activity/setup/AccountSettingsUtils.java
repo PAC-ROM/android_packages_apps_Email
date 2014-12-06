@@ -37,6 +37,7 @@ import com.android.emailcommon.provider.EmailContent.AccountColumns;
 import com.android.emailcommon.provider.QuickResponse;
 import com.android.emailcommon.service.PolicyServiceProxy;
 import com.android.emailcommon.utility.Utility;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.utils.LogUtils;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -60,7 +61,7 @@ public class AccountSettingsUtils {
      */
     public static void commitSettings(Context context, Account account) {
         if (!account.isSaved()) {
-            account.save(context);
+            account.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
 
             if (account.mPolicy != null) {
                 // TODO: we need better handling for unsupported policies

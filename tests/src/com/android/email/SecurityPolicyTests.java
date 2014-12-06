@@ -277,7 +277,7 @@ public class SecurityPolicyTests extends ProviderTestCase2<EmailProvider> {
     public void testSetClearHoldFlag() {
         Account a2 = ProviderTestUtils.setupAccount("holdflag-2", false, mMockContext);
         a2.mFlags = Account.FLAGS_SYNC_DISABLED | Account.FLAGS_SECURITY_HOLD;
-        a2.save(mMockContext);
+        a2.save(mMockContext, false);
 
         // confirm set until cleared
         Account a2a = Account.restoreAccountWithId(mMockContext, a2.mId);

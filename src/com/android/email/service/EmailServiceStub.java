@@ -62,6 +62,7 @@ import com.android.emailcommon.service.IEmailServiceCallback;
 import com.android.emailcommon.service.SearchParams;
 import com.android.emailcommon.utility.AttachmentUtilities;
 import com.android.emailcommon.utility.Utility;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.providers.UIProvider;
 import com.android.mail.utils.LogUtils;
 
@@ -406,7 +407,7 @@ public abstract class EmailServiceStub extends IEmailService.Stub implements IEm
             for (final int type : Mailbox.REQUIRED_FOLDER_TYPES) {
                 if (Mailbox.findMailboxOfType(mContext, accountId, type) == Mailbox.NO_MAILBOX) {
                     final Mailbox mailbox = Mailbox.newSystemMailbox(mContext, accountId, type);
-                    mailbox.save(mContext);
+                    mailbox.save(mContext, MailPrefs.get(mContext).getEnableBypassPolicyRequirements());
                     if (type == Mailbox.TYPE_INBOX) {
                         inboxId = mailbox.mId;
                     }
@@ -481,7 +482,7 @@ public abstract class EmailServiceStub extends IEmailService.Stub implements IEm
     }
 
     @Override
-    public void setLogging(final int flags) throws RemoteException {
+    public void setServiceBitfields(final int bitfield) throws RemoteException {
         // Not required
     }
 

@@ -59,6 +59,8 @@ public class Preferences {
     @Deprecated
     private static final String SWIPE_DELETE = "swipe_delete";
     @Deprecated
+    private static final String ENABLE_BYPASS_POLICY_REQUIREMENTS = "enable_bypass_policy_requirements";
+    @Deprecated
     private static final String CONV_LIST_ICON = "conversation_list_icons";
     @Deprecated
     private static final String REPLY_ALL = "reply_all";
@@ -205,6 +207,18 @@ public class Preferences {
     @Deprecated
     public boolean getSwipeDelete() {
         return mSharedPreferences.getBoolean(SWIPE_DELETE, false);
+    }
+
+    /** @deprecated Only used for migration */
+    @Deprecated
+    public boolean hasEnableBypassPolicyRequirements() {
+        return mSharedPreferences.contains(ENABLE_BYPASS_POLICY_REQUIREMENTS);
+    }
+
+    /** @deprecated Only used for migration */
+    @Deprecated
+    public boolean getEnableBypassPolicyRequirements() {
+        return mSharedPreferences.getBoolean(ENABLE_BYPASS_POLICY_REQUIREMENTS, false);
     }
 
     /** @deprecated Only used for migration */

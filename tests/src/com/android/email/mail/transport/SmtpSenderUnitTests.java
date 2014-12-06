@@ -110,12 +110,12 @@ public class SmtpSenderUnitTests extends AndroidTestCase {
         setupOpen(mockTransport, null);
 
         Message message = setupSimpleMessage();
-        message.save(mProviderContext);
+        message.save(mProviderContext, false);
 
         Body body = new Body();
         body.mMessageKey = message.mId;
         body.mTextContent = TEST_STRING;
-        body.save(mProviderContext);
+        body.save(mProviderContext, false);
 
         // prepare for the message traffic we'll see
         // TODO The test is a bit fragile, as we are order-dependent (and headers are not)
@@ -141,11 +141,11 @@ public class SmtpSenderUnitTests extends AndroidTestCase {
         setupOpen(mockTransport, null);
 
         Message message = setupSimpleMessage();
-        message.save(mProviderContext);
+        message.save(mProviderContext, false);
 
         // Creates an attachment with a bogus file (so we get headers only)
         Attachment attachment = setupSimpleAttachment(mProviderContext, message.mId);
-        attachment.save(mProviderContext);
+        attachment.save(mProviderContext, false);
 
         expectSimpleMessage(mockTransport);
         mockTransport.expect("Content-Type: multipart/mixed; boundary=\".*");

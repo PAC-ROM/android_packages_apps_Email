@@ -38,6 +38,7 @@ import com.android.emailcommon.service.EmailServiceProxy;
 import com.android.emailcommon.service.SearchParams;
 import com.android.emailcommon.utility.LoggingInputStream;
 import com.android.emailcommon.utility.Utility;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.utils.LogUtils;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -110,7 +111,7 @@ public class Pop3Store extends Store {
         if (mailbox.isSaved()) {
             mailbox.update(mContext, mailbox.toContentValues());
         } else {
-            mailbox.save(mContext);
+            mailbox.save(mContext, MailPrefs.get(mContext).getEnableBypassPolicyRequirements());
         }
         return new Folder[] { getFolder(mailbox.mServerId) };
     }

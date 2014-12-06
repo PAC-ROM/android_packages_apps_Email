@@ -160,7 +160,7 @@ public class EmailPreferenceActivityTests
         mAccount.mEmailAddress = "user@server.com";
         mAccount.getOrCreateHostAuthRecv(mContext).setHostAuthFromString(storeUri);
         mAccount.getOrCreateHostAuthSend(mContext).setHostAuthFromString(senderUri);
-        mAccount.save(mContext);
+        mAccount.save(mContext, false);
         mAccountId = mAccount.mId;
 
         // TODO: We don't have an intent that takes an account object

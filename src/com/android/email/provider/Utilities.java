@@ -37,6 +37,7 @@ import com.android.emailcommon.provider.EmailContent.MessageColumns;
 import com.android.emailcommon.provider.EmailContent.SyncColumns;
 import com.android.emailcommon.provider.Mailbox;
 import com.android.emailcommon.utility.ConversionUtilities;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.utils.LogUtils;
 import com.android.mail.utils.Utils;
 
@@ -162,7 +163,7 @@ public class Utilities {
                     att.mMessageKey = localMessage.mId;
                     att.mAccountKey = localMessage.mAccountKey;
                     att.mFlags = Attachment.FLAG_DUMMY_ATTACHMENT;
-                    att.save(context);
+                    att.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
                     localMessage.mFlagAttachment = true;
                 }
 
@@ -191,7 +192,7 @@ public class Utilities {
         if (content.isSaved()) {
             content.update(context, content.toContentValues());
         } else {
-            content.save(context);
+            content.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
         }
     }
 

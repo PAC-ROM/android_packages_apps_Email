@@ -43,6 +43,7 @@ import com.android.emailcommon.provider.EmailContent.Attachment;
 import com.android.emailcommon.provider.EmailContent.AttachmentColumns;
 import com.android.emailcommon.provider.Mailbox;
 import com.android.emailcommon.utility.AttachmentUtilities;
+import com.android.mail.preferences.MailPrefs;
 import com.android.mail.providers.UIProvider;
 import com.android.mail.utils.LogUtils;
 import com.google.common.annotations.VisibleForTesting;
@@ -300,7 +301,7 @@ public class LegacyConversions {
 
         // Save the attachment (so far) in order to obtain an id
         if (!attachmentFoundInDb) {
-            localAttachment.save(context);
+            localAttachment.save(context, MailPrefs.get(context).getEnableBypassPolicyRequirements());
         }
 
         // If an attachment body was actually provided, we need to write the file now

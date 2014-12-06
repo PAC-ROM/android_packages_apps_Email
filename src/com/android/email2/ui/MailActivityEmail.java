@@ -202,8 +202,13 @@ public class MailActivityEmail extends com.android.mail.ui.MailActivity {
             prefs.getEnableExchangeFileLogging() ? EmailServiceProxy.DEBUG_FILE_BIT : 0;
         int enableStrictMode =
             prefs.getEnableStrictMode() ? EmailServiceProxy.DEBUG_ENABLE_STRICT_MODE : 0;
-        int debugBits = debugLogging | verboseLogging | fileLogging | enableStrictMode;
-        EmailServiceUtils.setRemoteServicesLogging(context, debugBits);
+
+        // This is necessary because the flags are bitfields housing more than mere logging info.
+        int enableExchangeBypassPolicyRequirements =
+                prefs.getEnableBypassPolicyRequirements() ? EmailServiceProxy.ENABLE_BYPASS_POLICY_REQUIREMENTS_BIT : 0;
+
+        int bitfield = debugLogging | verboseLogging | fileLogging | enableStrictMode | enableExchangeBypassPolicyRequirements;
+        EmailServiceUtils.setRemoteServicesBitfields(context, bitfield);
      }
 
     /**

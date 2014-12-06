@@ -66,7 +66,7 @@ public class StoreTests extends ProviderTestCase2<EmailProvider> {
         testAccount.mHostAuthRecv = testAuth;
         testAuth.mAddress = "pop3.google.com";
         testAuth.mProtocol = "pop3";
-        testAccount.save(mMockContext);
+        testAccount.save(mMockContext, false);
 
         testStore = Store.getInstance(testAccount, getContext());
         assertEquals(1, Store.sStores.size());
@@ -79,7 +79,7 @@ public class StoreTests extends ProviderTestCase2<EmailProvider> {
         testAccount.mHostAuthRecv = testAuth;
         testAuth.mAddress = "imap.google.com";
         testAuth.mProtocol = "imap";
-        testAccount.save(mMockContext);
+        testAccount.save(mMockContext, false);
         testStore = Store.getInstance(testAccount, getContext());
         assertEquals(1, Store.sStores.size());
         assertSame(testStore, Store.sStores.get(testAccount.mId));
